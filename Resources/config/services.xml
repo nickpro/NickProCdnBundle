@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="nickpro_cdn.filemanager.class">Nickpro\CdnBundle\Filemanager\Filemanager</parameter>
+        <parameter key="nickpro_cdn.factory.class">Nickpro\CdnBundle\Filemanager\CdnFactory</parameter>
+        <parameter key="nickpro_cdn.twig_extension">Nickpro\CdnBundle\Twig\CdnExtension</parameter>
+    </parameters>
+
+    <services>
+        <service id="nickpro_cdn.factory" class="%nickpro_cdn.factory.class%">
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="nickpro_cdn.filemanager" class="%nickpro_cdn.filemanager.class%">
+            <argument type="service" id="nickpro_cdn.factory" />
+        </service>
+        
+        <service id="cdn" class="%nickpro_cdn.twig_extension%">
+            <tag name="twig.extension" />
+            <argument type="service" id="nickpro_cdn.filemanager"/>
+        </service>        
+    </services>
+</container>
