@@ -55,7 +55,13 @@ class Container implements ContainerInterface
         $this->originalFileName = $this->fileName;
         
         if ($dimension) {
-            $this->fileName .= self::$delimiter . $dimension;
+//            $this->fileName .= self::$delimiter . $dimension;
+//            $dotPosition = strrpos($this->fileName, '.');
+//            $fileName = substr($this->fileName, 0, $dotPosition);
+//            $ext = substr($this->fileName, $dotPosition + 1);
+//            
+//            $this->fileName = $fileName . $dimension . self::$delimiter . '.' . $ext;
+            $this->fileName = $this->getPathWithDimension($this->fileName, $dimension);
         }
         
         $file->move($this->fullPath, $this->fileName);
@@ -79,7 +85,7 @@ class Container implements ContainerInterface
     public function get($path, $dimension = null) 
     {
         if ($dimension) {
-            $path .= static::$delimiter . $dimension;
+            $path = $this->getPathWithDimension($path, $dimension);
         }
         $this->path = $this->uploadPath . '/' . $path;
         $this->url = $this->uploadUrl . '/' . $path;
@@ -101,7 +107,7 @@ class Container implements ContainerInterface
     public function remove($path, $dimension = null)
     {
         if ($dimension) {
-            $path .= static::$delimiter . $dimension;
+            $path = $this->getPathWithDimension($path, $dimension);
         }
         $file = $this->uploadPath . '/' . $path;
         @unlink($file);
@@ -110,5 +116,21 @@ class Container implements ContainerInterface
             return false;
         }
         return true;
+    }
+    
+    /**
+     * Returns given path with dimension
+     * 
+     * @param string $path
+     * @param string $dimension
+     * @return string
+     */
+    public function getPathWithDimension($path, $dimension)
+    {
+        $dotPosition = strrpos($path, '.');
+        $fileName = substr($path, 0, $dotPosition);
+        $ext = substr($path, $dotPosition + 1);
+
+        return $fileName . self::$delimiter . $dimension . '.' . $ext;
     }
 }
