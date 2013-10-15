@@ -57,7 +57,7 @@ class Container implements ContainerInterface
         if ($dimension) {
             $this->fileName = $this->getPathWithDimension($this->fileName, $dimension);
         }
-        
+
         $file->move($this->fullPath, $this->fileName);
         $this->path = $this->fullPath . '/' . $this->fileName;
         $this->url = $this->uploadUrl . '/' . $this->container . '/' . $this->fileName;
