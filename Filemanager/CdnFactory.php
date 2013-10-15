@@ -106,7 +106,7 @@ class CdnFactory
     protected function getDefaultCdn()
     {     
         if (!isset($this->config['default_storage']) || !isset($this->config['storages'][$this->config['default_storage']])) {
-            throw new \InvalidArgumentException(sprintf('Configuration for default cdn %s were not set', $this->config['default']));
+            throw new \InvalidArgumentException(sprintf('Configuration for default cdn %s were not set', $this->config['default_storage']));
         }
         
         return $this->getCdn($this->config['default_storage']);
